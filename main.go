@@ -41,6 +41,7 @@ func makeMenuItemSuggestion(restaurantTheme InputType, stream chan<- StreamType)
 		return err
 	}
 
+	close(stream)
 	return nil
 }
 
