@@ -26,7 +26,7 @@ func makeMenuItemSuggestion(restaurantTheme InputType, stream chan<- StreamType)
 		return errors.New("menuSuggestionFlow: failed to find model")
 	}
 
-	resp, err := ai.Generate(
+	_, err := ai.Generate(
 		context.Background(),
 		m,
 		ai.WithConfig(&ai.GenerationCommonConfig{Temperature: 1}),
@@ -34,13 +34,13 @@ func makeMenuItemSuggestion(restaurantTheme InputType, stream chan<- StreamType)
 		ai.WithStreaming(
 			func(ctx context.Context, grc *ai.GenerateResponseChunk) error {
 				fmt.Printf("Chunk: %s\n", grc.Text())
+				stream <- StreamType(grc.Text())
 				return nil
 			}))
 	if err != nil {
 		return err
 	}
 
-	stream <- StreamType(resp.Text())
 	return nil
 }
 
@@ -71,7 +71,8 @@ func main() {
 				menu.WriteString(string(chunk))
 			}
 			return OutputType(menu.String()), nil
-		})
+		},
+	)
 
 	// Initialize Genkit and start a flow server. This call must come last,
 	// after all of your plug-in configuration and flow definitions. When you
