@@ -1,32 +1,25 @@
-# Genkit - Menu Items Suggestion
+# Genkit Samples (Go)
 
-How to create streamable flows in Genkit
-
-This demo will talk to `Google AI - Gemini` and will suggest a menu plate based on a given restaurant theme.
-However, all the communication between the flow and the AI will be streamed in chunks
-
-This demo was created by following [Genkit Golang Flows documentation](https://firebase.google.com/docs/genkit-go/flows)
+A collection of Genkit samples using the Go runtime
 
 ## Dependencies
 
-- Go 1.22 or later
-- Node.js 20 or later
+Please follow this [quick](https://firebase.google.com/docs/genkit-go/devtools) guide
 
 ## How to run it
 
 ```shell
-## Install Genkit
-$ npm i -g genkit
-
-## On the project folder, run the following commands
-$ genkit init --model googleai
-
-## Provide your Google GEN AI API key
+## Provide your Google AI API key
 export GOOGLE_GENAI_API_KEY=foobar
 
-## Run flow in stream mode (chunks of data will be sent/received)
-$ genkit run:flow menuItemSuggestion '"Mexican"' -s
+## If using Vertex AI or ModelGarden, set the following env vars
+export GOOGLE_CLOUD_LOCATION=us-west-1
+export GOOGLE_CLOUD_PROJECT=my-cool-project
 
-## optional: if you just want to open Genkit Dev UI
-$ genkit start
+## Set the environment
+export GENKIT_ENV=dev
+
+## Use Genkit CLI to run the sample
+genkit start -- go run tools/main.go
+
 ```
